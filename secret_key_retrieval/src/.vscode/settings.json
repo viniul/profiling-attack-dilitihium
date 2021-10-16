@@ -80,7 +80,6 @@
         "typeinfo": "cpp",
         "valarray": "cpp",
         "variant": "cpp",
-        "vincent_globals.h": "c",
         "poly.h": "c",
         "symmetric.h": "c",
         "dense": "cpp",

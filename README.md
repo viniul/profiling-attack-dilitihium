@@ -6,7 +6,7 @@ Most of the attack logic is implemented in `secret_key_retrieval/attack/side_cha
 The project uses the `NTL` library and `SCIP` solver to solve the ILP.
 
 The machine learning setup can be found in `proof_of_concept/machine_learning` and 
-the chipwhisperer firmware in `proof_of_concept/chipwhisperer/victims/vincent_unpack_xof/`
+the chipwhisperer firmware in `proof_of_concept/chipwhisperer/victims/unpack_xof/`
 
 # Usage instructions
 1. First, run the docker like so:
