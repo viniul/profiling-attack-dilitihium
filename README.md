@@ -1,4 +1,7 @@
 # Project overview
+This repository contains the code for the paper `Profiling Side-Channel Attacks on Dilithium: A Small Bit-Fiddling Leak Breaks It All`.
+
+The code is structured in the following way:
 `secret_key_retrieval` contains the source code for the secret key retrieval as described in section 5.
 Most of the attack logic is implemented in `secret_key_retrieval/attack/side_channel_attack.cpp`, 
 `secret_key_retrieval/attack/ilp_solver.cpp` and ``secret_key_retrieval/attack/integer_lwe.cpp`.
