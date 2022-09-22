@@ -24,9 +24,9 @@ cd current_dir/secret_key_retrieval/src
 ```
 4. For the theoretical evaluations, run:
 ```
-./build/main <false-positive rate> <Specificity> <threshold>
+./build/main <false-positive rate> <true positive rate> <threshold>
 ```
-where threshold is the maximum value for |z_{i,j}| for which the possibility that y_{i,j} = 0 is not dismiseed, see section 5 of the paper. This will store the results in "ilp_evaluation.csv"
+where threshold is the maximum value for |z_{i,j}| for which the possibility that y_{i,j} = 0 is not dismiseed, see section 6 of the paper. This will store the results in "ilp_evaluation.csv"
 5. To generate the data for the proof of concept evaluation on the chipwhisperer, do:
 ```
 mkdir poc_data
