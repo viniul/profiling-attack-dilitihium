@@ -1,6 +1,6 @@
 #include "ilp_solver.h"
 namespace ILPSolver {
-    std::vector<long> solve_ilp(NTL::Mat<NTL::ZZ> NtlA, NTL::Vec<NTL::ZZ> Ntlb, IntegerLWE::SolveReturnStruct integer_lwe_ret_struct,double distance_threshold){
+    std::vector<long> solve_ilp(NTL::Mat<NTL::ZZ> NtlA, NTL::Vec<NTL::ZZ> Ntlb, IntegerLWE::SolveReturnStruct integer_lwe_ret_struct,double distance_threshold, bool use_hint){
         // Create the mip solver with the SCIP backend.
         int m = NtlA.NumRows();
         int n = NtlA.NumCols();
@@ -39,22 +39,23 @@ namespace ILPSolver {
             //std::cout << "Constraint " << constraint << std::endl;
             //MPConstraint* constraint = solver->MakeRowConstraint(LinearExpr::Mul, data.bounds[i], "");
         }
-        std::vector<std::pair<const operations_research::MPVariable*, double>> start_hint;
-        for(int j=0;j<n;++j){
-            double distance_to_zero_dot_five = std::abs((0.5-std::abs((integer_lwe_ret_struct.solution_not_rounded[j]-floor(integer_lwe_ret_struct.solution_not_rounded[j])))));
-            if (distance_to_zero_dot_five > distance_threshold){
-                s[j]->SetLB(integer_lwe_ret_struct.solution[j]);
-                s[j]->SetUB(integer_lwe_ret_struct.solution[j]);
+        if (use_hint){
+            std::vector<std::pair<const operations_research::MPVariable*, double>> start_hint;
+            for(int j=0;j<n;++j){
+                double distance_to_zero_dot_five = std::abs((0.5-std::abs((integer_lwe_ret_struct.solution_not_rounded[j]-floor(integer_lwe_ret_struct.solution_not_rounded[j])))));
+                if (distance_to_zero_dot_five > distance_threshold){
+                    s[j]->SetLB(integer_lwe_ret_struct.solution[j]);
+                    s[j]->SetUB(integer_lwe_ret_struct.solution[j]);
+                }
+                start_hint.push_back(std::make_pair(s[j], int(integer_lwe_ret_struct.solution[j])));
+                if (integer_lwe_ret_struct.solution_not_rounded[j]>0){
+                    s[j]->SetLB(int(integer_lwe_ret_struct.solution_not_rounded[j]));
+                    s[j]->SetUB(int(integer_lwe_ret_struct.solution_not_rounded[j])+1);
+                } else {
+                    s[j]->SetLB(int(integer_lwe_ret_struct.solution_not_rounded[j])-1);
+                    s[j]->SetUB(int(integer_lwe_ret_struct.solution_not_rounded[j]));
+                }
             }
-            start_hint.push_back(std::make_pair(s[j], int(integer_lwe_ret_struct.solution[j])));
-            if (integer_lwe_ret_struct.solution_not_rounded[j]>0){
-                s[j]->SetLB(int(integer_lwe_ret_struct.solution_not_rounded[j]));
-                s[j]->SetUB(int(integer_lwe_ret_struct.solution_not_rounded[j])+1);
-            } else {
-                s[j]->SetLB(int(integer_lwe_ret_struct.solution_not_rounded[j])-1);
-                s[j]->SetUB(int(integer_lwe_ret_struct.solution_not_rounded[j]));
-            }
-            
         }
         operations_research::MPObjective* const objective = solver->MutableObjective();
         for(int i=0;i<m;++i){
@@ -70,7 +71,7 @@ namespace ILPSolver {
         //solver->SetHint(start_hint);
         solver->EnableOutput();
         operations_research::MPSolverParameters *RG = new operations_research::MPSolverParameters();
-        RG->SetDoubleParam(operations_research::MPSolverParameters::DoubleParam::RELATIVE_MIP_GAP, 0.58);
+        //RG->SetDoubleParam(operations_research::MPSolverParameters::DoubleParam::RELATIVE_MIP_GAP, 0.58);
         const operations_research::MPSolver::ResultStatus result_status = solver->Solve(*RG);
         // Check that the problem has an optimal solution.
         if (result_status != operations_research::MPSolver::OPTIMAL) {

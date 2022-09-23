@@ -12,6 +12,6 @@
 
 
     namespace ILPSolver {
-        std::vector<long> solve_ilp(NTL::Mat<NTL::ZZ> NtlA, NTL::Vec<NTL::ZZ> Ntlb, IntegerLWE::SolveReturnStruct integer_lwe_ret_struct, double distance_threshold=0.50);
+        std::vector<long> solve_ilp(NTL::Mat<NTL::ZZ> NtlA, NTL::Vec<NTL::ZZ> Ntlb, IntegerLWE::SolveReturnStruct integer_lwe_ret_struct, double distance_threshold=0.50, bool use_hint=false);
     }
 #endif

@@ -401,7 +401,7 @@ namespace SideChannelAttack
             std::vector<long> ret_ilp_no_hint = ILPSolver::solve_ilp(NTL::conv<NTL::Mat<NTL::ZZ>>(A[i]), NTL::conv<NTL::Vec<NTL::ZZ>>(b[i]), ret_struct, min_distance, false);
             for (int j = 0; j < N; ++j)
             {
-                ret_vec_long[i * N + j] = ret_ilp[j];
+                ret_vec_long[i * N + j] = ret_ilp_no_hint[j];
             }
         }
         return ret_vec_long;
