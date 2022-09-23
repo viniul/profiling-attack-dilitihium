@@ -27,7 +27,7 @@ double global_false_positive = 0.9;
 double global_true_positive = 0.9;
 int global_false_positive_threshold = 0;
 int global_true_positive_threshold = 0;
-int MAX_RANGE_UNIFORM_DISTRIB = 1000;
+int MAX_RANGE_UNIFORM_DISTRIB = 100000;
 int global_threshold = 5;
 int global_equations = 0;
 
