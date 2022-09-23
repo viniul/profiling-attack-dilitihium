@@ -391,14 +391,14 @@ namespace SideChannelAttack
                     failure = true;
                 }
             }
-            if (failure)
-            {
-                continue;
-            }
-            std::cout << "Wrong count " << i << " " << wrong_count << std::endl;
+            //if (failure)
+            //{
+            //    continue;
+            //}
+            //std::cout << "Wrong count " << i << " " << wrong_count << std::endl;
             double min_distance = 0.49;
-            std::cout << "Min distance " << min_distance << std::endl;
-            std::vector<long> ret_ilp = ILPSolver::solve_ilp(NTL::conv<NTL::Mat<NTL::ZZ>>(A[i]), NTL::conv<NTL::Vec<NTL::ZZ>>(b[i]), ret_struct, min_distance);
+            //std::cout << "Min distance " << min_distance << std::endl;
+            std::vector<long> ret_ilp_no_hint = ILPSolver::solve_ilp(NTL::conv<NTL::Mat<NTL::ZZ>>(A[i]), NTL::conv<NTL::Vec<NTL::ZZ>>(b[i]), ret_struct, min_distance, false);
             for (int j = 0; j < N; ++j)
             {
                 ret_vec_long[i * N + j] = ret_ilp[j];
